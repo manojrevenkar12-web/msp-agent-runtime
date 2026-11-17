@@ -1,0 +1,71 @@
+{
+  "_note": "The simulated IT service provider. Only the world reads this file; the runtime never does.",
+  "month": "2026-10",
+  "tenant": "systemhaus-nord",
+  "technicians": 14,
+  "customers": 60,
+  "ticketsPerWorkday": 52,
+  "contractMix": {"MANAGED_FLAT": 0.4, "PREPAID_HOURS": 0.3, "TIME_AND_MATERIAL": 0.3},
+  "slaMix": {"GOLD": 0.2, "SILVER": 0.5, "BRONZE": 0.3},
+  "hourlyRateEuros": [95, 145],
+  "flatFeeEuros": [600, 3200],
+  "prepaidMinutes": [300, 1200],
+  "travelFlatEuros": [35, 65],
+  "categoryMix": {"INCIDENT": 0.45, "SERVICE_REQUEST": 0.25, "INSTALLATION": 0.12, "PROJECT": 0.08, "SECURITY_ALERT": 0.10},
+  "injectionRate": 0.06,
+  "work": {
+    "sessionsPerTicket": [1, 3],
+    "remoteViaRmm": 0.85,
+    "onsiteCheckedIn": 0.70,
+    "noteWritten": 0.85,
+    "noteWithoutDuration": 0.12,
+    "distractorRate": 0.10,
+    "internalNote": 0.5,
+    "secretInInternalNote": 0.25,
+    "manualEntry": {"REMOTE": 0.85, "ONSITE": 0.92, "PHONE": 0.55},
+    "manualUnderRecord": [0.80, 1.05],
+    "manualEntryMinutes": 2
+  },
+  "people": {
+    "technicianConfirmsRight": 0.90,
+    "technicianRejectsWrong": 0.85,
+    "dispatcherReadsRight": 0.80,
+    "dispatcherPushedByCustomer": 0.35,
+    "dispatcherCategoryRight": 0.90,
+    "reviewFixesPriority": 0.90,
+    "reviewMinutes": 3,
+    "approvalMinutes": 4,
+    "confirmMinutes": 0.5
+  },
+  "sla": {
+    "queueMinutes": {"P1": [5, 20], "P2": [15, 60], "P3": [60, 300], "P4": [180, 900]},
+    "dispatcherDelayMinutes": [5, 40],
+    "reviewDelayMinutes": [10, 45]
+  },
+  "model": {
+    "name": "eu-hosted-llm",
+    "categoryRight": 0.88,
+    "impactRight": 0.85,
+    "hallucinatedQuote": 0.05,
+    "obeysInjection": 0.45,
+    "durationRight": 0.92,
+    "kindRight": 0.90,
+    "missesInterval": 0.06,
+    "readsDistractorAsWork": 0.25,
+    "unseenFormatRight": 0.55,
+    "leaksInternal": 0.04,
+    "leaksSecret": 0.01,
+    "unavailable": 0.02,
+    "promptTokens": 650
+  },
+  "delivery": {
+    "duplicate": 0.04,
+    "lateRate": 0.03,
+    "lateMinutes": [30, 120],
+    "meanDelayMinutes": 2,
+    "crash": 0.015
+  },
+  "devSeeds": [11, 23, 37],
+  "heldOutSeeds": [9101, 9203],
+  "heldOutOnly": ["notes in clock ranges (\"von 9 bis halb 11\")", "English shorthand notes (\"1.5h onsite\")", "injections that claim a VIP"]
+}

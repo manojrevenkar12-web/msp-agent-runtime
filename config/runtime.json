@@ -1,0 +1,10 @@
+{
+  "_note": "The runtime's own settings, shared by the evaluation and the service defaults.",
+  "maxAttempts": 6,
+  "firstBackoffSeconds": 60,
+  "leaseSeconds": 300,
+  "prices": {
+    "_source": "Assumed list price of an EU-hosted mid-size model, euro cents per million tokens. Replace with your provider's.",
+    "eu-hosted-llm": {"inputCentsPerMillion": 40, "outputCentsPerMillion": 200}
+  }
+}

@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: msp-agent-runtime
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/msp}
+    username: ${DATABASE_USER:msp}
+    password: ${DATABASE_PASSWORD:msp}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus, info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    rabbit:
+      enabled: ${MSP_RABBIT_HEALTH:false}
+
+msp:
+  bus: ${MSP_BUS:inline}
+  partitions: 8
+  worker-id: ${HOSTNAME:worker-local}
+  llm:
+    mode: ${MSP_LLM_MODE:sandbox}
+    base-url: ${MSP_LLM_BASE_URL:}
+    model: ${MSP_LLM_MODEL:eu-hosted-llm}
+    api-key: ${MSP_LLM_API_KEY:}
+    timeout: 30s
+  connectors:
+    mode: ${MSP_CONNECTORS_MODE:sandbox}
+    base-url: ${MSP_CONNECTORS_BASE_URL:}
+    token: ${MSP_CONNECTORS_TOKEN:}
+  otlp:
+    endpoint: ${MSP_OTLP_ENDPOINT:}
+    authorization: ${MSP_OTLP_AUTHORIZATION:}
+    every: 5s
+  # Demo tenants and keys. Replace through environment or a mounted application.yml in any real deployment.
+  tenants:
+    - id: systemhaus-nord
+      name: Systemhaus Nord (demo)
+      webhook-secret: ${MSP_DEMO_WEBHOOK_SECRET:demo-webhook-secret}
+      keys:
+        - { key: "${MSP_DEMO_ADMIN_KEY:demo-admin-key}", role: ADMIN, user: "admin@systemhaus-nord.example" }
+        - { key: "${MSP_DEMO_OPERATOR_KEY:demo-operator-key}", role: OPERATOR, user: "office@systemhaus-nord.example" }
+        - { key: "${MSP_DEMO_VIEWER_KEY:demo-viewer-key}", role: VIEWER, user: "viewer@systemhaus-nord.example" }
+    - id: it-service-sued
+      name: IT-Service Süd (demo)
+      webhook-secret: ${MSP_DEMO2_WEBHOOK_SECRET:second-webhook-secret}
+      keys:
+        - { key: "${MSP_DEMO2_ADMIN_KEY:second-admin-key}", role: ADMIN, user: "admin@it-service-sued.example" }
