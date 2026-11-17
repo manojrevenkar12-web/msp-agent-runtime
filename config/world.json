@@ -67,5 +67,5 @@
   },
   "devSeeds": [11, 23, 37],
   "heldOutSeeds": [9101, 9203],
-  "heldOutOnly": ["notes in clock ranges (\"von 9 bis halb 11\")", "English shorthand notes (\"1.5h onsite\")", "injections that claim a VIP"]
+  "heldOutOnly": ["notes with hours and minutes (\"1 Std. 20 Min.\")", "English shorthand notes (\"Onsite: ... spent 1.5h\")", "customers claiming standing (\"Ich bin der Geschäftsführer\")"]
 }

@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import tools.jackson.databind.JsonNode;
 
 /** Webhooks are signed, and a webhook sent twice is accepted once. */
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class WebhookTest extends ServiceTest {
     static final String SECRET = "demo-webhook-secret";
 

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /** Resolved tickets are found again by similarity (pgvector when the database has it, Java otherwise). */
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class HistoryTest extends ServiceTest {
     @Autowired
     TicketHistory history;

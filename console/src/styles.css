@@ -1,0 +1,148 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import './app/theme/tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
+  font-variation-settings: 'wdth' 100;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-variation-settings: 'wdth' var(--wdth-wide);
+  font-weight: var(--weight-heading);
+  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--text-xxl);
+}
+
+h2 {
+  font-size: var(--text-xl);
+}
+
+h3 {
+  font-size: var(--text-lg);
+}
+
+p {
+  margin: 0;
+  max-width: var(--measure);
+}
+
+a {
+  color: var(--petrol);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--petrol);
+  outline-offset: 2px;
+}
+
+.condensed {
+  font-variation-settings: 'wdth' var(--wdth-narrow);
+}
+
+.muted {
+  color: var(--ink-2);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.btn {
+  border: 1px solid var(--rule-strong);
+  background: var(--sheet);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  font-weight: var(--weight-medium);
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--petrol);
+}
+
+.btn.primary {
+  background: var(--petrol);
+  border-color: var(--petrol);
+  color: var(--sheet);
+}
+
+.btn.danger {
+  color: var(--failed);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+table.data {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--text-sm);
+}
+
+table.data th {
+  text-align: left;
+  font-weight: var(--weight-medium);
+  color: var(--ink-2);
+  font-variation-settings: 'wdth' var(--wdth-narrow);
+  border-bottom: 1px solid var(--rule-strong);
+  padding: var(--space-2) var(--space-3);
+}
+
+table.data td {
+  border-bottom: 1px solid var(--rule);
+  padding: var(--space-2) var(--space-3);
+  vertical-align: top;
+}
+
+table.data td.r,
+table.data th.r {
+  text-align: right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

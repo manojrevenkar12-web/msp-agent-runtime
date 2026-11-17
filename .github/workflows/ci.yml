@@ -15,6 +15,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Compile and test every module (service tests that need a database run in the integration job)
         run: ./gradlew build --no-daemon
+      - name: The held-out run refuses to run a second time
+        run: |
+          ./gradlew :eval:heldout --no-daemon -q 2>&1 | grep -q "already run"
       - name: The report, the README and the console's demo data agree with the code
         run: |
           ./gradlew :eval:evaluate :eval:readme :eval:demo --no-daemon -q
@@ -60,3 +63,26 @@ jobs:
           python3 scripts/smoke.py http://localhost:8790
       - if: failure()
         run: tail -n 200 app.log || true
+
+  console:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: console
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: console/package-lock.json
+      - run: npm ci
+      - run: npx ng test --watch=false
+      - run: npx ng build
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: The container image builds
+        run: docker build -t msp-agent-runtime .

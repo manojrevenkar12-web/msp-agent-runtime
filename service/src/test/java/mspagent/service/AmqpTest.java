@@ -11,6 +11,7 @@ import tools.jackson.databind.JsonNode;
 
 /** With RabbitMQ: the relay publishes to the partition queues and the consumers run the agents. CI runs this. */
 @EnabledIfEnvironmentVariable(named = "MSP_TEST_RABBIT_HOST", matches = ".+")
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class AmqpTest extends ServiceTest {
 
     @DynamicPropertySource

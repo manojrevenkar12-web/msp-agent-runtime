@@ -64,6 +64,15 @@ class EvaluationTest {
     }
 
     @Test
+    void theRuntimeIsTheOneTheHeldOutResultWasPublishedFor() throws IOException {
+        Path lock = Path.of("config/heldout.lock");
+        if (Files.exists(Path.of("reports/heldout.json"))) {
+            assertEquals(Files.readString(lock).trim(), HeldOut.fingerprint(Path.of(".")),
+                    "the runtime changed after the held-out run; new held-out seeds are needed before publishing results");
+        }
+    }
+
+    @Test
     void theHeldOutSeedsAreNotDevelopmentSeeds() {
         assertTrue(WS.heldOutSeeds().stream().noneMatch(WS.devSeeds()::contains));
     }

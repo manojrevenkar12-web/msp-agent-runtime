@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import tools.jackson.databind.JsonNode;
 
 /** Keys decide the tenant and the role; nothing crosses tenants. */
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class SecurityTest extends ServiceTest {
 
     @Test

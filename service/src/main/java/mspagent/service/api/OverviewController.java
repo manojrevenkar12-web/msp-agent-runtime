@@ -57,6 +57,9 @@ public class OverviewController {
                 });
         m.put("runsLastDay", byAgent);
         m.put("waitingApprovals", store.pendingApprovals(c.tenant()).size());
+        m.put("retriedLastDay", jdbc.sql("select count(*) from runs where tenant = :t and created_at >= :s "
+                        + "and attempts > 1 and dry_run = false")
+                .param("t", c.tenant()).param("s", since).query(Long.class).single());
         m.put("usageLastDay", spans.usageSince(c.tenant(), clock.instant().minus(Duration.ofDays(1))));
         m.put("latencyLastDay", jdbc.sql("""
                 select coalesce(percentile_cont(0.5) within group (order by extract(epoch from

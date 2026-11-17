@@ -1,0 +1,12 @@
+# Local dependencies: PostgreSQL with pgvector and RabbitMQ. The service runs with ./gradlew :service:bootRun.
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: msp
+      POSTGRES_PASSWORD: msp
+      POSTGRES_DB: msp
+    ports: ["5432:5432"]
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    ports: ["5672:5672", "15672:15672"]

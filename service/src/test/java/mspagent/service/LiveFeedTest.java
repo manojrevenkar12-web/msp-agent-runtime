@@ -18,6 +18,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
     "msp.relay-millis=3600000", "msp.tick-millis=3600000", "msp.bus=inline", "msp.connectors.mode=sandbox",
     "msp.llm.mode=sandbox", "spring.flyway.clean-disabled=false"})
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class LiveFeedTest extends ServiceTest {
     @LocalServerPort
     int port;

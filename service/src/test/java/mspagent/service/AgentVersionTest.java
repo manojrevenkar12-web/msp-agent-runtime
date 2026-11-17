@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import tools.jackson.databind.JsonNode;
 
 /** A version is configured within its limits, tested dry against cases and recent events, and only then published. */
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class AgentVersionTest extends ServiceTest {
 
     int latest(JsonNode agent) {

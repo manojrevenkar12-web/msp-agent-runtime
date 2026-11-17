@@ -5,17 +5,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import mspagent.core.agent.Agent;
 import mspagent.core.agent.Agents;
 import mspagent.core.engine.Approval;
 import mspagent.core.engine.EngineSettings;
 import mspagent.core.engine.Json;
 import mspagent.core.engine.Run;
-import mspagent.core.engine.RunStatus;
 import mspagent.core.engine.RuntimeStore;
 import mspagent.core.view.Views;
 import mspagent.world.World;
@@ -34,16 +31,24 @@ final class Demo {
         Evaluate.Result r = Evaluate.run(w, "platform", es, false);
         RuntimeStore store = r.platform().store;
         List<Run> all = store.runs(w.tenant, new RuntimeStore.RunQuery(null, null, Integer.MAX_VALUE));
-        Set<Run> pick = new LinkedHashSet<>();
-        all.stream().filter(x -> x.status() == RunStatus.WAITING_APPROVAL).limit(8).forEach(pick::add);
-        all.stream().filter(x -> x.attempts() > 1).sorted(Comparator.comparing(Run::createdAt).reversed()).limit(14)
-                .forEach(pick::add);
-        for (Agent a : Agents.builtIn()) {
-            all.stream().filter(x -> x.agentId().equals(a.id())).limit(28).forEach(pick::add);
-        }
+        // The last working day of the month and the month close: every run in that window.
+        java.time.Instant from = java.time.LocalDate.parse(w.month + "-01").plusMonths(1).minusDays(2)
+                .atTime(6, 0).atZone(World.BERLIN).toInstant();
+        java.time.Instant to = w.monthEnd.plusSeconds(8 * 3600);
         List<Map<String, Object>> runs = new ArrayList<>();
-        pick.stream().sorted(Comparator.comparing(Run::updatedAt).reversed())
+        all.stream()
+                .filter(x -> !x.createdAt().isBefore(from) && x.createdAt().isBefore(to))
+                .sorted(Comparator.comparing(Run::updatedAt).reversed())
                 .forEach(x -> runs.add(Views.runDetail(x, store.steps(x.id()), store.spans(w.tenant, x.id()))));
+        runs.forEach(m -> ((List<?>) m.get("steps")).forEach(st -> {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> sm = (Map<String, Object>) st;
+            String j = (String) sm.get("json");
+            int cap = "decision".equals(sm.get("name")) ? 6000 : 1000;
+            if (j.length() > cap) {
+                sm.put("json", j.substring(0, cap) + "…");
+            }
+        }));
 
         Map<String, Object> demo = new LinkedHashMap<>();
         demo.put("note", "Simulated: seed " + w.seed + ", " + w.month + ", " + w.tickets.size()

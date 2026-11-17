@@ -17,6 +17,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
 /** Spans go to an OTLP endpoint (Langfuse's, for one) once, with the configured authorization. */
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class TraceExportTest extends ServiceTest {
     static final List<String[]> RECEIVED = new CopyOnWriteArrayList<>();
     static HttpServer server;

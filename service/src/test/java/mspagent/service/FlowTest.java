@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import tools.jackson.databind.JsonNode;
 
 /** A ticket's life through the service: triage, time from a session and a note, a customer update, the invoice. */
+@org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named = "MSP_TEST_DATABASE_URL", matches = ".+")
 class FlowTest extends ServiceTest {
 
     @Test
