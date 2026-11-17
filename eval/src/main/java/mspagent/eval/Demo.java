@@ -70,7 +70,10 @@ final class Demo {
         demo.put("evaluation", dev.get("designs"));
         demo.put("evaluationSeeds", dev.get("seeds"));
         Files.createDirectories(root.resolve("console/public"));
-        Files.writeString(root.resolve("console/public/demo.json"), Json.write(demo) + "\n");
+        // Map.copyOf iterates in a different order in every JVM; sorted keys keep the file the same from run to run.
+        tools.jackson.databind.json.JsonMapper sorted = tools.jackson.databind.json.JsonMapper.builder()
+                .enable(tools.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).build();
+        Files.writeString(root.resolve("console/public/demo.json"), sorted.writeValueAsString(demo) + "\n");
         System.out.println("wrote console/public/demo.json with " + runs.size() + " runs");
     }
 }
