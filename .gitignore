@@ -1,0 +1,10 @@
+.gradle/
+.gradle-home/
+build/
+*.class
+node_modules/
+console/dist/
+console/.angular/
+.idea/
+*.iml
+.env
